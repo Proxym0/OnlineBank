@@ -4,7 +4,6 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthRequestDTO;
 import com.example.demo.entity.User;
 import com.example.demo.security.JWTTokenProvider;
-import com.example.demo.service.ExchangeRatesClient;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,6 @@ public class RegistrationController {
     @Autowired
     private JWTTokenProvider jwtTokenProvider;
 
-//    @Autowired
-//    private ExchangeRatesClient client;
-
     @PostMapping
     public ResponseEntity<User> registration(@RequestBody User user) {
         return ResponseEntity.ok(userService.save(user));
@@ -39,11 +35,6 @@ public class RegistrationController {
         }
         return ResponseEntity.badRequest().build();
     }
-
-//    @GetMapping("/test")
-//    public void test() {
-//        System.out.println(client.getRates());
-//    }
 }
 
 
