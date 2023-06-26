@@ -32,6 +32,13 @@ public class UserService implements UserDetailsService {
         }
         throw new RuntimeException();
     }
+    public User findById (Long id) {
+        Optional<User> byId = userRepository.findById(id);
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        throw new RuntimeException();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

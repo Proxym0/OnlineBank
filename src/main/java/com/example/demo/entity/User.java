@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,10 +15,11 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Builder
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +43,19 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "card_id")
+//    @OneToOne
+//    @JoinColumn(name = "card_id")
+//    private Card card;
+
+//    public Card getCard() {
+//        return card;
+//    }
+//
+//    public void setCard(Card card) {
+//        this.card = card;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -123,6 +138,8 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", roles=" + roles +
+//                ", card=" + card +
                 '}';
     }
 }

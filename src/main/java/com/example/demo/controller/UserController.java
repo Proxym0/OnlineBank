@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.AuthRequestDTO;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.entity.User;
 import com.example.demo.security.JWTTokenProvider;
 import com.example.demo.service.UserService;
@@ -14,7 +14,7 @@ import static com.example.demo.service.UserService.bCryptPasswordEncoder;
 
 @RestController
 @RequestMapping("/user")
-public class RegistrationController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -27,7 +27,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthRequestDTO dto) {
+    public ResponseEntity<String> login(@RequestBody UserDTO dto) {
         User user = userService.findByUsername(dto.getUsername());
         String token = jwtTokenProvider.generateToken(dto.getUsername(), user.getRoles());
         if (bCryptPasswordEncoder.matches(dto.getPassword(), user.getPassword())) {
