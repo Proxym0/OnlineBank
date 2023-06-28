@@ -1,16 +1,24 @@
 package com.example.demo.controller;
 
-import org.hibernate.exception.ConstraintViolationException;
 
-import java.sql.SQLDataException;
-import java.sql.SQLException;
+public class DBException extends RuntimeException {
 
-//public class DBException extends SQLException {
-//
-//        public DBException (String reason) {
-//        super(reason);
-//    }
-//    public String getMessage(String message) {
-//        return "This card number already exists.";
-//    }
-//}
+    public DBException() {
+    }
+
+    public DBException(String message) {
+        super(message);
+    }
+
+    public DBException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DBException(Throwable cause) {
+        super(cause);
+    }
+
+    public DBException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+}

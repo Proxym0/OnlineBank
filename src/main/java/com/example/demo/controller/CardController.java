@@ -18,8 +18,8 @@ public class CardController {
     private CardService cardService;
 
     @PostMapping
-    public ResponseEntity<CardDTO> saveCard(@RequestBody CardDTO cardDTO) {
-        CardDTO save = cardService.save(cardDTO);
+    public ResponseEntity<CardDTO> saveCard(@RequestBody CardDTO cardDTO){
+        CardDTO save = cardService.save(cardDTO).getBody();
         return ResponseEntity.ok(save);
     }
 

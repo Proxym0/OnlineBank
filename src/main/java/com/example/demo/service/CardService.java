@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.DBException;
 import com.example.demo.controller.MoneyException;
 import com.example.demo.dao.CardRepository;
 import com.example.demo.dao.UserRepository;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CardService extends Exception {
+public class CardService {
     @Autowired
     private CardRepository cardRepository;
 
@@ -46,10 +47,14 @@ public class CardService extends Exception {
                 .build();
     }
 
-    public CardDTO save(CardDTO cardDTO) {
-        Card card = mappingToEntity(cardDTO);
-        Card savedCard = cardRepository.save(card);
-        return mappingToDTO(savedCard);
+    public ResponseEntity<CardDTO> save(CardDTO cardDTO) {
+        try {
+            Card card = mappingToEntity(cardDTO);
+            Card savedCard = cardRepository.save(card);
+            return ResponseEntity.ok(mappingToDTO(savedCard));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(new DBException("This number already exists"));
+        }
     }
 
     public ResponseEntity<TransferOperationDTO> transferAmount(TransferOperationDTO transferOperationDTO) {

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,12 +22,12 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         resp.put("detail", exception.getMessage());
         return ResponseEntity.badRequest().body(resp);
     }
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<Map<String, String>> error(SQLException exception) {
+    @ExceptionHandler(DBException.class)
+    public ResponseEntity<Map<String, String>> error(DBException e) {
         Map<String, String> res = new HashMap<>();
         res.put("title", "Error");
         res.put("code", HttpStatus.BAD_REQUEST.toString());
-        res.put("detail","This card number already exists.");
+        res.put("detail",e.getMessage());
         return ResponseEntity.badRequest().body(res);
     }
 }
