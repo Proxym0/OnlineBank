@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import ch.qos.logback.classic.Logger;
 import com.example.demo.controller.DBException;
 import com.example.demo.controller.MoneyException;
 import com.example.demo.dao.CardRepository;
@@ -8,7 +9,9 @@ import com.example.demo.dto.CardDTO;
 import com.example.demo.dto.TransferOperationDTO;
 import com.example.demo.entity.Card;
 import com.example.demo.entity.User;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +20,9 @@ import java.util.Optional;
 
 @Service
 @Transactional
+
 public class CardService {
+    private Logger log = (Logger) LoggerFactory.getLogger(CardService.class);
     @Autowired
     private CardRepository cardRepository;
 
@@ -47,13 +52,17 @@ public class CardService {
                 .build();
     }
 
-    public ResponseEntity<CardDTO> save(CardDTO cardDTO) {
+    public CardDTO save(CardDTO cardDTO) {
         try {
             Card card = mappingToEntity(cardDTO);
             Card savedCard = cardRepository.save(card);
-            return ResponseEntity.ok(mappingToDTO(savedCard));
-        } catch (RuntimeException e) {
-            throw new RuntimeException(new DBException("This number already exists"));
+            return mappingToDTO(savedCard);
+        } catch (DataIntegrityViolationException e) {
+            log.warn("This number already exists", e);
+            throw new DBException("This number already exists");
+//        }catch (JDBCException ex){
+//            log.warn("Unexpected error",ex);
+//            throw new DBException("Unexpected error");
         }
     }
 

@@ -19,7 +19,7 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<CardDTO> saveCard(@RequestBody CardDTO cardDTO){
-        CardDTO save = cardService.save(cardDTO).getBody();
+        CardDTO save = cardService.save(cardDTO);
         return ResponseEntity.ok(save);
     }
 
